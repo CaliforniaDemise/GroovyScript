@@ -12,6 +12,7 @@ import de.ellpeck.actuallyadditions.api.ActuallyAdditionsAPI;
 import de.ellpeck.actuallyadditions.api.recipe.CompostRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
@@ -33,6 +34,18 @@ public class Compost extends VirtualizedRegistry<CompostRecipe> {
         ActuallyAdditionsAPI.COMPOST_RECIPES.addAll(restoreFromBackup());
     }
 
+    public CompostRecipe add(Ingredient input, ItemStack output) {
+        return add(input, Blocks.LEAVES, output, Blocks.DIRT);
+    }
+    
+    public CompostRecipe add(Ingredient input, ItemStack inputDisplay, ItemStack output, ItemStack outputDisplay) {
+        Block inputBlock = Block.getBlockFromItem(inputDisplay.getItem());
+        Block outputBlock = Block.getBlockFromItem(outputDisplay.getItem());
+        if (inputBlock == Blocks.AIR) inputBlock = Blocks.LEAVES;
+        if (outputBlock == Blocks.AIR) outputBlock = Blocks.DIRT;
+        return add(input, inputBlock, output, outputBlock);
+    }
+    
     public CompostRecipe add(Ingredient input, Block inputDisplay, ItemStack output, Block outputDisplay) {
         return add(input, inputDisplay.getDefaultState(), output, outputDisplay.getDefaultState());
     }
@@ -57,6 +70,12 @@ public class Compost extends VirtualizedRegistry<CompostRecipe> {
     }
 
     public boolean removeByInput(IIngredient input) {
+        if (IngredientHelper.isEmpty(input)) {
+            GroovyLog.msg("Error removing Actually Additions Compost recipe")
+                    .add("input must not be empty")
+                    .error()
+                    .post();
+        }
         return ActuallyAdditionsAPI.COMPOST_RECIPES.removeIf(recipe -> {
             boolean found = recipe.getInput().test(IngredientHelper.toItemStack(input));
             if (found) {
@@ -67,6 +86,12 @@ public class Compost extends VirtualizedRegistry<CompostRecipe> {
     }
 
     public boolean removeByOutput(ItemStack output) {
+        if (IngredientHelper.isEmpty(output)) {
+            GroovyLog.msg("Error removing Actually Additions Compost recipe")
+                    .add("output must not be empty")
+                    .error()
+                    .post();
+        }
         return ActuallyAdditionsAPI.COMPOST_RECIPES.removeIf(recipe -> {
             boolean matches = ItemStack.areItemStacksEqual(recipe.getOutput(), output);
             if (matches) {
