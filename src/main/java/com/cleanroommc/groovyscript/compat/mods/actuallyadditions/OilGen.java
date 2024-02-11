@@ -4,6 +4,7 @@ import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
 import com.cleanroommc.groovyscript.helper.SimpleObjectStream;
+com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import de.ellpeck.actuallyadditions.api.ActuallyAdditionsAPI;
@@ -53,14 +54,35 @@ public class OilGen extends VirtualizedRegistry<OilGenRecipe> {
     }
 
     public boolean removeByInput(FluidStack fluid) {
+        if (IngredientHelper.isEmpty(fluid)) {
+            GroovyLog.msg("Error removing fluid from Actually Additions Oil Generation")
+                    .add("fluid must not be empty")
+                    .error()
+                    .post();
+            return false;
+        }
         return this.removeByInput(fluid.getFluid());
     }
 
     public boolean removeByInput(Fluid fluid) {
+        if (fluid == null) {
+            GroovyLog.msg("Error removing fluid from Actually Additions Oil Generation")
+                    .add("fluid must not be empty")
+                    .error()
+                    .post();
+            return false;
+        }
         return this.removeByInput(fluid.getName());
     }
 
     public boolean removeByInput(String fluid) {
+        if (fluid == null || fluid.isEmpty()) {
+            GroovyLog.msg("Error removing fluid from Actually Additions Oil Generation")
+                    .add("fluid must not be empty")
+                    .error()
+                    .post();
+            return false;
+        }
         return ActuallyAdditionsAPI.OIL_GENERATOR_RECIPES.removeIf(recipe -> {
             boolean found = fluid.equals(recipe.fluidName);
             if (found) {
