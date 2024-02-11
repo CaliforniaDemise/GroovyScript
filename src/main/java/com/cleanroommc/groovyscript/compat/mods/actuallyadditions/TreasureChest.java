@@ -2,6 +2,8 @@ package com.cleanroommc.groovyscript.compat.mods.actuallyadditions;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.GroovyLog;
+import com.cleanroommc.groovyscript.api.IIngredient;
+import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
 import com.cleanroommc.groovyscript.helper.SimpleObjectStream;
 import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder;
@@ -47,9 +49,16 @@ public class TreasureChest extends VirtualizedRegistry<TreasureChestLoot> {
         return true;
     }
 
-    public boolean removeByOutput(ItemStack output) {
+    public boolean removeByOutput(IIngredient output) {
+        if (IngredientHelper.isEmpty(output)) {
+            GroovyLog.msg("Error removing entry from Actually Additions Treasure Loot")
+                    .add("ingredient must not be empty")
+                    .error()
+                    .post();
+            return false;
+        }
         return ActuallyAdditionsAPI.TREASURE_CHEST_LOOT.removeIf(recipe -> {
-            boolean matches = ItemStack.areItemStacksEqual(recipe.returnItem, output);
+            boolean matches = output.test(recipe.returnItem);
             if (matches) {
                 addBackup(recipe);
             }
