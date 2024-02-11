@@ -9,6 +9,7 @@ import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import de.ellpeck.actuallyadditions.api.ActuallyAdditionsAPI;
+import de.ellpeck.actuallyadditions.api.lens.ILensItem;
 import de.ellpeck.actuallyadditions.api.lens.Lens;
 import de.ellpeck.actuallyadditions.api.recipe.LensConversionRecipe;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,14 @@ public class AtomicReconstructor extends VirtualizedRegistry<LensConversionRecip
         ActuallyAdditionsAPI.RECONSTRUCTOR_LENS_CONVERSION_RECIPES.addAll(restoreFromBackup());
     }
 
+    public LensConversionRecipe add(Ingredient input, ItemStack output, int energy, ItemStack lens) {
+        if (lens.getItem() instanceof ILensItem item) {
+            Lens type = item.getLens();
+            return add(input, output, energy, type);
+        }
+        return null;
+    }
+
     public LensConversionRecipe add(Ingredient input, ItemStack output, int energy, Lens type) {
         LensConversionRecipe recipe = new LensConversionRecipe(input, output, energy, type);
         add(recipe);
@@ -52,6 +61,12 @@ public class AtomicReconstructor extends VirtualizedRegistry<LensConversionRecip
     }
 
     public boolean removeByInput(IIngredient input) {
+        if (IngredientHelper.isEmpty(input) {
+            GroovyLog.msg("Error removing Actually Additions Atomic Reconstructor recipe")
+                    .add("input must not be empty")
+                    .error()
+                    .post();
+        }
         return ActuallyAdditionsAPI.RECONSTRUCTOR_LENS_CONVERSION_RECIPES.removeIf(recipe -> {
             boolean found = recipe.getInput().test(IngredientHelper.toItemStack(input));
             if (found) {
@@ -62,6 +77,12 @@ public class AtomicReconstructor extends VirtualizedRegistry<LensConversionRecip
     }
 
     public boolean removeByOutput(ItemStack output) {
+        if (IngredientHelper.isEmpty(output) {
+            GroovyLog.msg("Error removing Actually Additions Atomic Reconstructor recipe")
+                    .add("output must not be empty")
+                    .error()
+                    .post();
+        }
         return ActuallyAdditionsAPI.RECONSTRUCTOR_LENS_CONVERSION_RECIPES.removeIf(recipe -> {
             boolean matches = ItemStack.areItemStacksEqual(recipe.getOutput(), output);
             if (matches) {
@@ -69,6 +90,27 @@ public class AtomicReconstructor extends VirtualizedRegistry<LensConversionRecip
             }
             return matches;
         });
+    }
+
+    public boolean removeByLens(ItemStack stack) {
+        if (stack.getItem() instanceof ILensItem lens) {
+            return removeByLens(lens.getLens());
+        }
+        GroovyLog.msg("Error removing Actually Additions Atomic Reconstructor recipe")
+                    .add("given item is not lens")
+                    .error()
+                    .post();
+    }
+
+    public boolean removeByLens(Lens type) {
+        if (lens == null) return null;
+        return ActuallyAdditionsAPI.RECONSTRUCTOR_LENS_CONVERSION_RECIPES.removeIf(recipe -> {
+            boolean matches = recipe.getType() == type;
+            if (matches) {
+                addBackup(recipe);
+            }
+            return matches;
+        }
     }
 
     public void removeAll() {
@@ -115,4 +157,4 @@ public class AtomicReconstructor extends VirtualizedRegistry<LensConversionRecip
             return recipe;
         }
     }
-}
+                                                           }
