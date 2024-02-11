@@ -55,6 +55,12 @@ public class Crusher extends VirtualizedRegistry<CrusherRecipe> {
     }
 
     public boolean removeByInput(IIngredient input) {
+        if (IngredientHelper.isEmpty(input)) {
+            GroovyLog.msg("Error removing Actually Additions Crusher recipe")
+                    .add("input must not be empty")
+                    .error()
+                    .post();
+        }
         return ActuallyAdditionsAPI.CRUSHER_RECIPES.removeIf(recipe -> {
             boolean found = recipe.getInput().test(IngredientHelper.toItemStack(input));
             if (found) {
@@ -65,6 +71,12 @@ public class Crusher extends VirtualizedRegistry<CrusherRecipe> {
     }
 
     public boolean removeByOutput(ItemStack output) {
+        if (IngredientHelper.isEmpty(output)) {
+            GroovyLog.msg("Error removing Actually Additions Crusher recipe")
+                    .add("output must not be empty")
+                    .error()
+                    .post();
+        }
         return ActuallyAdditionsAPI.CRUSHER_RECIPES.removeIf(recipe -> {
             boolean matches = ItemStack.areItemStacksEqual(recipe.getOutputOne(), output);
             if (matches) {
