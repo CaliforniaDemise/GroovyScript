@@ -48,10 +48,24 @@ public class StoneMiningLens extends VirtualizedRegistry<WeightedOre> {
     }
 
     public boolean removeByOre(OreDictIngredient ore) {
+        if (IngredientHelper.isEmpty(ore)) {
+            GroovyLog.msg("Error removing ore dict from Actually Additions Stone Mining Lens")
+                    .add("ore dict must not be empty")
+                    .error()
+                    .post();
+            return false;
+        }
         return this.removeByOre(ore.getOreDict());
     }
 
     public boolean removeByOre(String oreName) {
+        if (ore == null || ore.isEmpty) {
+            GroovyLog.msg("Error removing ore dict from Actually Additions Stone Mining Lens")
+                    .add("ore dict must not be empty")
+                    .error()
+                    .post();
+            return false;
+        }
         return ActuallyAdditionsAPI.STONE_ORES.removeIf(recipe -> {
             boolean found = oreName.equals(recipe.name);
             if (found) {
