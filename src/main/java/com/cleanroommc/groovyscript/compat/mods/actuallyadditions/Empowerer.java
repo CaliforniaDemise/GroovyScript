@@ -33,7 +33,26 @@ public class Empowerer extends VirtualizedRegistry<EmpowererRecipe> {
         ActuallyAdditionsAPI.EMPOWERER_RECIPES.addAll(restoreFromBackup());
     }
 
-    public EmpowererRecipe add(Ingredient input, ItemStack output, Ingredient modifier1, Ingredient modifier2, Ingredient modifier3, Ingredient modifier4, int energyPerStand, int time, float[] particleColor) {
+    public EmpowererRecipe add(Ingredient input, ItemStack output, Ingredient modifier1, Ingredient modifier2, Ingredient modifier3, Ingredient modifier4, int energyPerStand, int time) {
+        return add(input, output, modifier1, modifier2, modifier3, modifier4, energyPerStand, time, 0xFFFFFF);
+    }
+
+    public EmpowererRecipe add(Ingredient input, ItemStack output, Ingredient modifier1, Ingredient modifier2, Ingredient modifier3, Ingredient modifier4, int energyPerStand, int time, int particleColor) {
+        float red40, blue, green;
+        red40 = (float) ((particleColor >> 16) & 0xFF) / 255;
+        blue = (float) ((particleColor >> 8) & 0xFF) / 255;
+        green = (float) (particleColor & 0xFF) / 255;
+        return add(input, output, modifier1, modifier2, modifier3, modifier4, energyPerStand, time, particleColor);
+    }
+    
+    public EmpowererRecipe add(Ingredient input, ItemStack output, Ingredient modifier1, Ingredient modifier2, Ingredient modifier3, Ingredient modifier4, int energyPerStand, int time, float... particleColor) {
+        if (particleColor.length != 3) {
+            GroovyLog.msg("Error adding Actually Additions Empowerer recipe")
+                    .add("amount particle color values can't be smaller or larger than 3")
+                    .error()
+                    .post();
+            return null;
+        }
         EmpowererRecipe recipe = new EmpowererRecipe(input, output, modifier1, modifier2, modifier3, modifier4, energyPerStand, time, particleColor);
         add(recipe);
         return recipe;
@@ -53,6 +72,12 @@ public class Empowerer extends VirtualizedRegistry<EmpowererRecipe> {
     }
 
     public boolean removeByInput(IIngredient input) {
+        if (IngredientHelper.isEmpty(input)) {
+            GroovyLog.msg("Error removing Actually Additions Empowerer recipe")
+                    .add("input must not be empty")
+                    .error()
+                    .post();
+        }
         return ActuallyAdditionsAPI.EMPOWERER_RECIPES.removeIf(recipe -> {
             boolean found = recipe.getInput().test(IngredientHelper.toItemStack(input));
             if (found) {
@@ -63,6 +88,12 @@ public class Empowerer extends VirtualizedRegistry<EmpowererRecipe> {
     }
 
     public boolean removeByOutput(ItemStack output) {
+        if (IngredientHelper.isEmpty(output)) {
+            GroovyLog.msg("Error removing Actually Additions Empowerer recipe")
+                    .add("output must not be empty")
+                    .error()
+                    .post();
+        }
         return ActuallyAdditionsAPI.EMPOWERER_RECIPES.removeIf(recipe -> {
             boolean matches = ItemStack.areItemStacksEqual(recipe.getOutput(), output);
             if (matches) {
