@@ -48,6 +48,12 @@ public class BallOfFur extends VirtualizedRegistry<BallOfFurReturn> {
     }
 
     public boolean removeByOutput(ItemStack output) {
+        if (IngredientHelper.isEmpty(output)) {
+            GroovyLog.msg("Error removing Actually Additions Ball of Fur recipe")
+                    .add("output must not be empty")
+                    .error()
+                    .post();
+        }
         return ActuallyAdditionsAPI.BALL_OF_FUR_RETURN_ITEMS.removeIf(recipe -> {
             boolean found = ItemStack.areItemStacksEqual(recipe.returnItem, output);
             if (found) {
