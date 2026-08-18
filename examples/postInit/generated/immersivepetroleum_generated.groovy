@@ -32,6 +32,29 @@ mods.immersivepetroleum.distillation.recipeBuilder()
     .register()
 
 
+// Lubricant:
+// Adds a fluid as Lubricant with amount of mB to use per tick.
+
+mods.immersivepetroleum.lubricant.remove(fluid('lubricant'))
+// mods.immersivepetroleum.lubricant.removeAll()
+
+mods.immersivepetroleum.lubricant.add(fluid('water') * 50)
+
+// Motorboat Fuel:
+// Adds a fluid as Motorboat fuel with amount of mB to use per tick.
+
+mods.immersivepetroleum.motorboat_fuel.remove(fluid('gasoline'))
+// mods.immersivepetroleum.motorboat_fuel.removeAll()
+
+mods.immersivepetroleum.motorboat_fuel.add(fluid('lava') * 5)
+
+// Portable Generator:
+// Adds a fluid as Portable Generator fuel with amount of mB to use per tick.
+
+mods.immersivepetroleum.portable_generator.remove(fluid('gasoline'))
+
+mods.immersivepetroleum.portable_generator.add(fluid('lubricant') * 5, 128)
+
 // Reservoir:
 // Adds a Reservoir Type with the given name, weight, minimum size, maximum size, replenishment rate, allowed dimensions,
 // and allowed biomes. A Reservoir Type can be extracted by an Pumpjack Multiblock and scanned via a Core Sample Drill.

@@ -30,6 +30,7 @@ public class LateMixin implements ILateMixinLoader {
             "forestry",
             "ic2_classic",
             "ic2_exp",
+            "immersivepetroleum",
             "industrialforegoing",
             "inspirations",
             "jei",

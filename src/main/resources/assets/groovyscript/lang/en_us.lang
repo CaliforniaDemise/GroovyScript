@@ -1854,6 +1854,21 @@ groovyscript.wiki.immersivepetroleum.distillation.time.value=Sets the duration i
 groovyscript.wiki.immersivepetroleum.distillation.chance.value=Sets the chance the corresponding entry in `output` will be output
 groovyscript.wiki.immersivepetroleum.distillation.energy.value=Sets the energy cost of the recipe
 
+groovyscript.wiki.immersivepetroleum.lubricant.title=Lubricant
+groovyscript.wiki.immersivepetroleum.lubricant.description=Adds a fluid as Lubricant with amount of mB to use per tick.
+groovyscript.wiki.immersivepetroleum.lubricant.add=Adds a fluid as Lubricant. Fluid stacks amount is used to define amount of mB to use per tick
+groovyscript.wiki.immersivepetroleum.lubricant.remove=Removes a fluid from Lubricant list
+
+groovyscript.wiki.immersivepetroleum.motorboat_fuel.title=Motorboat Fuel
+groovyscript.wiki.immersivepetroleum.motorboat_fuel.description=Adds a fluid as Motorboat fuel with amount of mB to use per tick.
+groovyscript.wiki.immersivepetroleum.motorboat_fuel.add=Adds a fluid as Motorboat fuel. Fluid stacks amount is used to define amount of mB to use per tick
+groovyscript.wiki.immersivepetroleum.motorboat_fuel.remove=Removes a fluid from Motorboat fuel list
+
+groovyscript.wiki.immersivepetroleum.portable_generator.title=Portable Generator
+groovyscript.wiki.immersivepetroleum.portable_generator.description=Adds a fluid as Portable Generator fuel with amount of mB to use per tick.
+groovyscript.wiki.immersivepetroleum.portable_generator.add=Adds a fluid as Portable Generator fuel. Fluid stacks amount is used to define amount of mB to use per tick
+groovyscript.wiki.immersivepetroleum.portable_generator.remove=Removes a fluid from Portable Generator fuel list
+
 groovyscript.wiki.immersivepetroleum.reservoir.title=Reservoir
 groovyscript.wiki.immersivepetroleum.reservoir.description=Adds a Reservoir Type with the given name, weight, minimum size, maximum size, replenishment rate, allowed dimensions, and allowed biomes. A Reservoir Type can be extracted by an Pumpjack Multiblock and scanned via a Core Sample Drill.
 groovyscript.wiki.immersivepetroleum.reservoir.note0=Reloading will not change chunks already 'discovered'
